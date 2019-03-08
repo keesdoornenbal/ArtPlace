@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class="d-flex m-4">
+  <div class="flex-grow-1">
+    <h1>{% block title %}Latest Posts{% endblock %}</h1>
+  </div>
+  <div class="">
+    {% if g.user %}
+      <a class="btn btn-success" href="{{ url_for('overview.create') }}">New Post</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap pl-4 pr-4">
+  {% for post in posts %}
+  <div class="card border-primary m-2" style="min-width: 30rem; max-width: 50rem;">
+    <h3 class="card-header">{{ post['title'] }}</h3>
+    <div class="card-body">
+      <div class="d-flex">
+        <div class="flex-grow-1">
+          <h5 class="card-title">Posted by {{ post['username'] }}</h5>
+          <h6 class="card-subtitle text-muted">On {{ post['created'].strftime('%Y-%m-%d') }}</h6>
+        </div>
+        <div class="">
+        {% if g.user['id'] == post['author_id'] %}
+          <a class="action" href="{{ url_for('overview.update', id=post['id']) }}">Edit</a>
+        {% endif %}
+        </div>
+      </div>
+        <p class="card-text mt-2">{{ post['body'] }}</p>
+    </div>
+  </div>
+    <!-- image of artpiece can come here later -->
+  {% endfor %}
+</div>
+{% endblock %}
