@@ -2,7 +2,7 @@
 <title>{% block title %}{% endblock %} - Artplace</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
   <a class="navbar-brand" href="{{ url_for('overview.index') }}">ArtPlace</a>
   <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -10,6 +10,7 @@
 
   <div class="navbar-collapse collapse" id="navbarColor01" style="">
     <ul class="navbar-nav mr-auto">
+      {% if g.user %}
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('overview.index') }}">Explore</a>
       </li>
@@ -19,6 +20,7 @@
       <li class="nav-item">
         <a class="nav-link" href="#">My Profile</a>
       </li>
+      {% endif %}
     </ul>
     <ul class="navbar-nav ml-auto">
       {% if g.user %}
@@ -26,19 +28,24 @@
         <a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
       </li>
       {% else %}
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
-      </li>
+      <form action="" method="post" novalidate class="form-inline my-2 my-lg-0">
+        <div class="form-group">
+          <input name="login_username" id="login_username" class="form-control mr-2" required placeholder="Username">
+        </div>
+        <div class="form-group">
+          <input type="password" name="login_password" id="login_password" class="form-control mr-2" required placeholder="Password">
+        </div>
+        <div class="form-group">
+          <input type="submit" name="action" id="login_submit" class="btn btn-success mr-2" required value="Login">
+        </div>
+      </form>
       {% endif %}
     </ul>
   </div>
 </nav>
 
 <section class="content">
-  <header>
+  <header class="mt-5">
     {% block header %}{% endblock %}
   </header>
   {% for message in get_flashed_messages() %}
