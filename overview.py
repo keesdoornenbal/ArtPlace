@@ -9,6 +9,7 @@ from artplace.db import get_db
 bp = Blueprint('overview', __name__)
 
 @bp.route('/')
+@bp.route('/index')
 def index():
     db = get_db()
     posts = db.execute(

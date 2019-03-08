@@ -16,21 +16,21 @@
 {% block content %}
 <div class="d-flex flex-wrap pl-4 pr-4">
   {% for post in posts %}
-  <div class="card border-primary m-2" style="min-width: 30rem; max-width: 50rem;">
-    <h3 class="card-header">{{ post['title'] }}</h3>
-    <div class="card-body">
-      <div class="d-flex">
-        <div class="flex-grow-1">
-          <h5 class="card-title">Posted by {{ post['username'] }}</h5>
-          <h6 class="card-subtitle text-muted">On {{ post['created'].strftime('%Y-%m-%d') }}</h6>
-        </div>
-        <div class="">
+  <div class="card border-primary m-2" style="min-width: 30rem; max-width: 45rem;">
+    <div class="d-flex card-header">
+      <div class="flex-grow-1">
+        <h3 class="">{{ post['title'] }}</h3>
+      </div>
+      <div class="">
         {% if g.user['id'] == post['author_id'] %}
           <a class="action" href="{{ url_for('overview.update', id=post['id']) }}">Edit</a>
         {% endif %}
-        </div>
       </div>
-        <p class="card-text mt-2">{{ post['body'] }}</p>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Posted by {{ post['username'] }}</h5>
+      <h6 class="card-subtitle text-muted">On {{ post['created'].strftime('%Y-%m-%d') }}</h6>
+      <p class="card-text mt-2">{{ post['body'] }}</p>
     </div>
   </div>
     <!-- image of artpiece can come here later -->
