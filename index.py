@@ -1,12 +1,13 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, session
 )
 from werkzeug.exceptions import abort
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from artplace.auth import login_required
 from artplace.db import get_db
 
-bp = Blueprint('overview', __name__)
+bp = Blueprint('index', __name__)
 
 @bp.route('/', methods=('GET', 'POST'))
 @bp.route('/index', methods=('GET', 'POST'))
@@ -18,7 +19,8 @@ def index():
     #     ' ORDER BY created DESC'
     # ).fetchall()
     if request.method == 'POST':
-        if request.form.post[action] == 'Login':
+        form_name = request.form['form-name']
+        if form_name == 'form_login':
             username = request.form['login_username']
             password = request.form['login_password']
             db = get_db()
@@ -35,13 +37,13 @@ def index():
             if error is None:
                 session.clear()
                 session['user_id'] = user['id']
-                return redirect(url_for('index'))
+                return redirect(url_for('art.art'))
 
             flash(error)
 
-        elif request.form.post[action] == 'Register':
-            username = request.form['username']
-            password = request.form['password']
+        elif form_name == 'form_register':
+            username = request.form['register_username']
+            password = request.form['register_password']
             db = get_db()
             error = None
 
@@ -61,10 +63,16 @@ def index():
                 )
                 db.commit()
                 session.clear()
+                user = db.execute(
+                    'SELECT * FROM user WHERE username = ?', (username,)
+                ).fetchone()
                 session['user_id'] = user['id']
-                return redirect(url_for('index'))
+                return redirect(url_for('art.art'))
 
             flash(error)
+
+        else:
+            render_template('homepage/index.html')
 
     return render_template('homepage/index.html')
 

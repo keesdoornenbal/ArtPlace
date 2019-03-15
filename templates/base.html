@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-  <a class="navbar-brand" href="{{ url_for('overview.index') }}">ArtPlace</a>
+  <a class="navbar-brand" href="{{ url_for('index') }}">ArtPlace</a>
   <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -12,7 +12,7 @@
     <ul class="navbar-nav mr-auto">
       {% if g.user %}
       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('overview.index') }}">Explore</a>
+        <a class="nav-link" href="#">Explore</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">My Art</a>
@@ -37,6 +37,7 @@
         </div>
         <div class="form-group">
           <input type="submit" name="action" id="login_submit" class="btn btn-success mr-2" required value="Login">
+          <input type="hidden" name="form-name" value="form_login">
         </div>
       </form>
       {% endif %}
