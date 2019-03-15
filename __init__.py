@@ -29,8 +29,11 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp)
 
-    from . import art
-    app.register_blueprint(art.bp)
+    from . import explore
+    app.register_blueprint(explore.bp)
+
+    from . import myart
+    app.register_blueprint(myart.artpage)
 
     from . import index
     app.register_blueprint(index.bp)

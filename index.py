@@ -37,7 +37,7 @@ def index():
             if error is None:
                 session.clear()
                 session['user_id'] = user['id']
-                return redirect(url_for('art.art'))
+                return redirect(url_for('myart.art'))
 
             flash(error)
 
@@ -67,7 +67,7 @@ def index():
                     'SELECT * FROM user WHERE username = ?', (username,)
                 ).fetchone()
                 session['user_id'] = user['id']
-                return redirect(url_for('art.art'))
+                return redirect(url_for('myart.art'))
 
             flash(error)
 
