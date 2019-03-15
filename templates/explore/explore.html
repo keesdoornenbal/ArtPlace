@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class="d-flex mt-5 p-4">
+  <div class="flex-grow-1">
+    <h1>{% block title %}Latest Posts{% endblock %}</h1>
+  </div>
+  <div class="">
+    {% if g.user %}
+      {% include 'explore/post_create.html' %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap pl-4 pr-4">
+  {% for post in posts %}
+    {% include 'explore/post.html' %}
+  {% endfor %}
+</div>
+{% endblock %}

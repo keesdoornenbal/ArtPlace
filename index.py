@@ -12,6 +12,8 @@ bp = Blueprint('index', __name__)
 @bp.route('/', methods=('GET', 'POST'))
 @bp.route('/index', methods=('GET', 'POST'))
 def index():
+
+    session.clear()
     # db = get_db()
     # posts = db.execute(
     #     'SELECT p.id, title, body, created, author_id, username'

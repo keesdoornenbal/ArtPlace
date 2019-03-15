@@ -1,20 +1,35 @@
-{% extends 'base.html' %}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#postEditModalCenter">Edit</button>
 
-{% block header %}
-  <h1>{% block title %}Edit "{{ post['title'] }}"{% endblock %}</h1>
-{% endblock %}
-
-{% block content %}
-  <form method="post">
-    <label for="title">Title</label>
-    <input name="title" id="title"
-      value="{{ request.form['title'] or post['title'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] or post['body'] }}</textarea>
-    <input type="submit" value="Save">
-  </form>
-  <hr>
-  <form action="{{ url_for('overview.delete', id=post['id']) }}" method="post">
-    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
-  </form>
-{% endblock %}
+<!-- Modal -->
+<div class="modal fade" id="postEditModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Edit Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+          <div class="form-group">
+            <label for="title_edit">Title</label>
+            <input name="title_edit" id="title_edit" class="form-control" value="{{ request.form['title'] or post['title'] }}" required>
+          </div>
+          <div class="form-group">
+            <label for="body_edit">Body</label>
+            <textarea name="body_edit" class="form-control" id="body_edit" rows="5">{{ request.form['body'] or post['body'] }}</textarea>
+          </div>
+          <input type="hidden" name="post_id" value="{{ post['id'] }}">
+          <div class="modal-footer">
+            <a href="{{ url_for('explore.delete', id=post['id']) }}" class="btn btn-danger mr-auto">Delete Post</a>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-success" value="Save">
+            <input type="hidden" name="form-name" value="form_postedit">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

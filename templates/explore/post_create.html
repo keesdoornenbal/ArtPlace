@@ -1,15 +1,34 @@
-{% extends 'base.html' %}
 
-{% block header %}
-  <h1>{% block title %}New Post{% endblock %}</h1>
-{% endblock %}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#postCreateModalCenter">New Post</button>
 
-{% block content %}
-  <form method="post">
-    <label for="title">Title</label>
-    <input name="title" id="title" value="{{ request.form['title'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
-    <input type="submit" value="Save">
-  </form>
-{% endblock %}
+<!-- Modal -->
+<div class="modal fade" id="postCreateModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">New Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post">
+          <div class="form-group">
+            <label for="title_new">Title</label>
+            <input name="title_new" id="title_new" class="form-control" value="{{ request.form['title'] }}" required>
+          </div>
+          <div class="form-group">
+            <label for="body_new">Body</label>
+            <textarea name="body_new" class="form-control" id="body_new" rows="5">{{ request.form['body'] }}</textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-success" value="Save">
+            <input type="hidden" name="form-name" value="form_postcreate">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <a class="navbar-brand" href="{{ url_for('index') }}">ArtPlace</a>
+  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="navbar-collapse collapse" id="navbarColor01" style="">
+    <ul class="navbar-nav mr-auto">
+      {% if g.user %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('explore.index') }}">Explore</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('myart.art') }}">My Art</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">My Profile</a>
+      </li>
+      {% endif %}
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      {% if g.user %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
+      </li>
+      {% else %}
+      <form action="" method="post" novalidate class="form-inline my-2 my-lg-0">
+        <div class="form-group">
+          <input name="login_username" id="login_username" class="form-control mr-2" required placeholder="Username">
+        </div>
+        <div class="form-group">
+          <input type="password" name="login_password" id="login_password" class="form-control mr-2" required placeholder="Password">
+        </div>
+        <div class="form-group">
+          <input type="submit" name="action" id="login_submit" class="btn btn-success mr-2" required value="Login">
+          <input type="hidden" name="form-name" value="form_login">
+        </div>
+      </form>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
