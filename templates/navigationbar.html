@@ -18,12 +18,20 @@
       </li>
       {% endif %}
     </ul>
+    {% if g.user %}
     <ul class="navbar-nav ml-auto">
-      {% if g.user %}
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
       </li>
-      {% else %}
+    </ul>
+    {% else %}
+    <ul class="navbar-nav ml-auto">
+      {% for message in get_flashed_messages() %}
+        <div class="alert alert-dismissible alert-primary mt-0 mr-2 mb-0 ml-0">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Oh snap!</strong> {{ message }}
+        </div>
+      {% endfor %}
       <form action="" method="post" novalidate class="form-inline my-2 my-lg-0">
         <div class="form-group">
           <input name="login_username" id="login_username" class="form-control mr-2" required placeholder="Username">
@@ -36,7 +44,7 @@
           <input type="hidden" name="form-name" value="form_login">
         </div>
       </form>
-      {% endif %}
     </ul>
+    {% endif %}
   </div>
 </nav>
