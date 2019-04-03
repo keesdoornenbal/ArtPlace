@@ -13,6 +13,8 @@ from artplace.db import get_db
 
 artpage = Blueprint('myart', __name__, url_prefix='/art')
 
+# testing
+
 @artpage.route('/')
 @artpage.route('/myart')
 @login_required
