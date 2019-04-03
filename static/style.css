@@ -18,3 +18,8 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.artincard {
+  height: 20rem;
+  width: auto;
+}

@@ -12,7 +12,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="post">
+        <form method="post" action="{{ url_for('explore.edit') }}">
           <div class="form-group">
             <label for="title_edit">Title</label>
             <input name="title_edit" id="title_edit" class="form-control" value="{{ request.form['title'] or post['title'] }}" required>
@@ -26,7 +26,6 @@
             <a href="{{ url_for('explore.delete', id=post['id']) }}" class="btn btn-danger mr-auto">Delete Post</a>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <input type="submit" class="btn btn-success" value="Save">
-            <input type="hidden" name="form-name" value="form_postedit">
           </div>
         </form>
       </div>

@@ -1,10 +1,22 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<div class="text-center">
-    <h1 class="p-4">Logged in!</h1>
+<div class="d-flex mt-5 p-4">
+  <div class="flex-grow-1">
+    <h1>{% block title %}Your art{% endblock %}</h1>
+  </div>
+  <div class="">
+    {% if g.user %}
+      {% include 'art/artpiece_create.html' %}
+    {% endif %}
+  </div>
 </div>
 {% endblock %}
 
 {% block content %}
+<div class="d-flex flex-wrap pl-4 pr-4">
+    {% for artpiece in artpieces %}
+      {% include 'art/artpiece.html' %}
+    {% endfor %}
+</div>
 {% endblock %}

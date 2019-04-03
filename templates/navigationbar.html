@@ -32,7 +32,7 @@
           <strong>Oh snap!</strong> {{ message }}
         </div>
       {% endfor %}
-      <form action="" method="post" novalidate class="form-inline my-2 my-lg-0">
+      <form action="{{ url_for('index.login') }}" method="post" novalidate class="form-inline my-2 my-lg-0">
         <div class="form-group">
           <input name="login_username" id="login_username" class="form-control mr-2" required placeholder="Username">
         </div>
@@ -41,7 +41,6 @@
         </div>
         <div class="form-group">
           <input type="submit" name="action" id="login_submit" class="btn btn-success mr-2" required value="Login">
-          <input type="hidden" name="form-name" value="form_login">
         </div>
       </form>
     </ul>

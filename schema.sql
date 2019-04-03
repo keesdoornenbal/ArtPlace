@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS artpiece;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -10,10 +11,12 @@ CREATE TABLE user (
 CREATE TABLE post (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   author_id INTEGER NOT NULL,
+  artpiece_id INTEGER,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   title TEXT NOT NULL,
   body TEXT NOT NULL,
-  FOREIGN KEY (author_id) REFERENCES user (id)
+  FOREIGN KEY (author_id) REFERENCES user (id),
+  FOREIGN KEY (artpiece_id) REFERENCES artpiece (id)
 );
 
 CREATE TABLE artpiece (
@@ -22,5 +25,6 @@ CREATE TABLE artpiece (
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   title TEXT NOT NULL,
   image BLOB NOT NULL,
+  imagetype TEXT NOT NULL,
   FOREIGN KEY (owner_id) REFERENCES user (id)
 );

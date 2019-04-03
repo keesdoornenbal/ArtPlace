@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}Home{% endblock %}
+
 {% block header %}
 <div class="text-center">
     <h1 class="p-4">The place to share Art!</h1>
@@ -16,7 +18,7 @@
       <div class="card-header">Register</div>
       <div class="card-body">
         <h4 class="card-title">Get started with ArtPlace!</h4>
-        <form method="post">
+        <form method="post" action="{{ url_for('index.register') }}">
           <div class="form-group" style="max-width: 60%">
             <label for="register_username">Username</label>
             <input class="form-control" id="register_username" placeholder="Username" name="register_username" required>
@@ -26,7 +28,6 @@
             <input class="form-control" type="password" name="register_password" id="register_password" placeholder="Password" required>
           </div>
           <input type="submit" class="btn btn-primary" value="Register">
-          <input type="hidden" name="form-name" value="form_register">
         </form>
       </div>
     </div>
