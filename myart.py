@@ -13,7 +13,21 @@ from artplace.db import get_db
 
 artpage = Blueprint('myart', __name__, url_prefix='/art')
 
-# testing
+def get_artpiece(id, check_author=True):
+    artpiece = get_db().execute(
+        'SELECT a.id, title, image, created, owner_id, imagetype'
+        ' FROM artpiece a JOIN user u ON a.owner_id = u.id'
+        ' WHERE a.id = ?',
+        (id,)
+    ).fetchone()
+
+    if artpiece is None:
+        abort(404, "Artpiece id {0} doesn't exist.".format(id))
+
+    if check_author and artpiece['owner_id'] != g.user['id']:
+        abort(403)
+
+    return artpiece
 
 @artpage.route('/')
 @artpage.route('/myart')
@@ -21,8 +35,8 @@ artpage = Blueprint('myart', __name__, url_prefix='/art')
 def art():
     db = get_db()
     artpieces = db.execute(
-        'SELECT a.title, image, created, owner_id, imagetype'
-        ' FROM artpiece a JOIN user u WHERE a.owner_id = u.id'
+        'SELECT a.id, title, image, created, owner_id, imagetype'
+        ' FROM artpiece a JOIN user u ON a.owner_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
 
@@ -57,3 +71,12 @@ def upload():
         )
         db.commit()
         return redirect(url_for('myart.art'))
+
+@artpage.route('/<int:id>/delete', methods=('GET', 'POST'))
+@login_required
+def delete(id):
+    get_artpiece(id)
+    db = get_db()
+    db.execute('DELETE FROM artpiece WHERE id = ?', (id,))
+    db.commit()
+    return redirect(url_for('myart.art'))
