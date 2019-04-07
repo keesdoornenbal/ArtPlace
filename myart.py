@@ -15,7 +15,7 @@ artpage = Blueprint('myart', __name__, url_prefix='/art')
 
 def get_artpiece(id, check_author=True):
     artpiece = get_db().execute(
-        'SELECT a.id, title, image, created, owner_id, imagetype'
+        'SELECT a.id, artpiecename, image, uploadtime, owner_id, imagetype'
         ' FROM artpiece a JOIN user u ON a.owner_id = u.id'
         ' WHERE a.id = ?',
         (id,)
@@ -35,9 +35,9 @@ def get_artpiece(id, check_author=True):
 def art():
     db = get_db()
     artpieces = db.execute(
-        'SELECT a.id, title, image, created, owner_id, imagetype'
+        'SELECT a.id, artpiecename, image, uploadtime, owner_id, imagetype'
         ' FROM artpiece a JOIN user u ON a.owner_id = u.id'
-        ' ORDER BY created DESC'
+        ' ORDER BY uploadtime DESC'
     ).fetchall()
 
     return render_template('art/my_art.html', artpieces=artpieces)
@@ -65,7 +65,7 @@ def upload():
         data = data.replace("b'", '')
         data = data.replace("'", '')
         db.execute(
-            'INSERT INTO artpiece (title, image, owner_id, imagetype)'
+            'INSERT INTO artpiece (artpiecename, image, owner_id, imagetype)'
             ' VALUES (?, ?, ?, ?)',
             (title, data, g.user['id'], file_extension)
         )
@@ -77,6 +77,40 @@ def upload():
 def delete(id):
     get_artpiece(id)
     db = get_db()
+    posts = db.execute(
+        'SELECT p.id'
+        ' FROM post p JOIN artpiece a ON p.artpiece_id = a.id'
+        ' ORDER BY created DESC'
+    ).fetchall()
     db.execute('DELETE FROM artpiece WHERE id = ?', (id,))
+    db.execute('DELETE FROM post WHERE artpiece_id = ?', (id,))
     db.commit()
     return redirect(url_for('myart.art'))
+
+
+
+@artpage.route('/<int:id>/post', methods=('GET', 'POST'))
+@login_required
+def post(id):
+    artpiece = request.form['artpiece_id']
+    title = request.form['title_new']
+    body = request.form['body_new']
+    error = None
+
+    if not title:
+        error = 'Title is required.'
+
+        if not title:
+            error = 'Something wrong with the artpiece.'
+
+    if error is not None:
+        flash(error)
+    else:
+        db = get_db()
+        db.execute(
+            'INSERT INTO post (title, body, author_id, artpiece_id)'
+            ' VALUES (?, ?, ?, ?)',
+            (title, body, g.user['id'], artpiece)
+        )
+        db.commit()
+        return redirect(url_for('myart.art'))

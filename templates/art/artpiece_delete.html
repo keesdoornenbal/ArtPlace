@@ -1,10 +1,10 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary glyphicon glyphicon-trash" data-toggle="modal" data-target="#deleteWarning">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#delete{{ artpiece['id'] }}">
     <span class="fas fa-trash"></span>
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="deleteWarning" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="delete{{ artpiece['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

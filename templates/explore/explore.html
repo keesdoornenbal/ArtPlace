@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="d-flex flex-wrap pl-4 pr-4">
+<div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 500 }'>
   {% for post in posts %}
     {% include 'explore/post.html' %}
   {% endfor %}

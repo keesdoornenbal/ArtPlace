@@ -31,8 +31,8 @@ def get_post(id, check_author=True):
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, body, created, author_id, username'
-        ' FROM post p JOIN user u ON p.author_id = u.id'
+        'SELECT p.id, title, body, created, author_id, username, artpiece_id, image, imagetype, artpiecename'
+        ' FROM post p JOIN user u ON p.author_id = u.id LEFT JOIN artpiece a ON p.artpiece_id = a.id'
         ' ORDER BY created DESC'
     ).fetchall()
     return render_template('explore/explore.html', posts=posts)

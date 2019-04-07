@@ -1,21 +1,23 @@
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-success" data-toggle="modal" data-target="#postCreateModalCenter">New Post
-    <span class="fas fa-comment-alt"></span>
-  </button>
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#edit{{ artpiece['id'] }}">
+  <span class="fas fa-comment-alt"></span>
+</button>
 
 <!-- Modal -->
-<div class="modal fade" id="postCreateModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="edit{{ artpiece['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">New Post</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">New post about {{ artpiece['artpiecename'] }}
+          <span class="comment-alt"></span>
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" action="{{ url_for('explore.create') }}">
+        <form method="post" action="{{ url_for('myart.post', id=artpiece['id']) }}">
           <div class="form-group">
             <label for="title_new">Title</label>
             <input name="title_new" id="title_new" class="form-control" value="{{ request.form['title'] }}" required>
@@ -24,6 +26,7 @@
             <label for="body_new">Body</label>
             <textarea name="body_new" class="form-control" id="body_new" rows="5">{{ request.form['body'] }}</textarea>
           </div>
+          <input type="hidden" name="artpiece_id" value="{{ artpiece['id'] }}">
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <input type="submit" class="btn btn-success" value="Save">

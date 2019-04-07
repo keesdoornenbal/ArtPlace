@@ -20,6 +20,14 @@
 }
 
 .artincard {
-  height: 20rem;
-  width: auto;
+  height: 100%;
+  width: 23rem;
+}
+
+.card-fit-content{
+  height: fit-content;
+}
+
+.grid-item {
+  width: 500px;
 }
