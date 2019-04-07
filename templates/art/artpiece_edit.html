@@ -1,0 +1,41 @@
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit{{ artpiece['id'] }}">
+  <span class="fas fa-edit"></span>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="edit{{ artpiece['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Edit Artpiece {{ artpiece['artpiecename'] }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{{ url_for('myart.edit', id=artpiece['id']) }}" enctype=multipart/form-data>
+          <div class="form-group">
+            <label for="title_edit">Title</label>
+            <input name="title_edit" id="title_edit" class="form-control" required value="{{ request.form['title_edit'] or artpiece['artpiecename'] }}">
+          </div>
+          <div class="form-group">
+            <label for="value_edit">Value</label>
+            <input type="number" min="0" step=".01" name="value_edit" id="value_edit" class="form-control" required value="{{ artpiece['value'] }}">
+            <small id="numberHelp" class="form-text text-muted">Only the first to numbers after the point will be counted.</small>
+          </div>
+          <div class="form-group">
+            <label for="image_edit">Image</label>
+            <input type="file" class="form-control-file" id="image_edit" name="image_edit" aria-describedby="fileHelp" accept="image/*" value="{{ artpiece['image'] }}">
+            <small id="fileHelp" class="form-text text-muted">Only upload images. Only upload one if you want to change it.</small>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-success" value="Save">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

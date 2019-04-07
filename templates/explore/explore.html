@@ -14,9 +14,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 500 }'>
-  {% for post in posts %}
-    {% include 'explore/post.html' %}
-  {% endfor %}
+<div class="justify-content-center">
+  <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 500 }'>
+    {% for post in posts %}
+      {% include 'explore/post.html' %}
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

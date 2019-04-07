@@ -35,7 +35,7 @@ def get_artpiece(id, check_author=True):
 def art():
     db = get_db()
     artpieces = db.execute(
-        'SELECT a.id, artpiecename, image, uploadtime, owner_id, imagetype'
+        'SELECT a.id, artpiecename, image, uploadtime, owner_id, imagetype, value'
         ' FROM artpiece a JOIN user u ON a.owner_id = u.id'
         ' ORDER BY uploadtime DESC'
     ).fetchall()
@@ -46,6 +46,8 @@ def art():
 @login_required
 def upload():
     title = request.form['title_new']
+    value = float(request.form['value_new'])
+    value = round(value,2)
     if 'image_new' not in request.files:
         flash('No file uploaded!')
         return redirect(url_for('myart.art'))
@@ -65,12 +67,57 @@ def upload():
         data = data.replace("b'", '')
         data = data.replace("'", '')
         db.execute(
-            'INSERT INTO artpiece (artpiecename, image, owner_id, imagetype)'
-            ' VALUES (?, ?, ?, ?)',
-            (title, data, g.user['id'], file_extension)
+            'INSERT INTO artpiece (artpiecename, image, owner_id, imagetype, value)'
+            ' VALUES (?, ?, ?, ?, ?)',
+            (title, data, g.user['id'], file_extension, value)
         )
         db.commit()
         return redirect(url_for('myart.art'))
+
+@artpage.route('/<int:id>/edit', methods=('GET', 'POST'))
+@login_required
+def edit(id):
+    title = request.form['title_edit']
+    value = float(request.form['value_edit'])
+    value = round(value,2)
+    error = None
+    db = get_db()
+    if 'image_edit' not in request.files:
+        if not title:
+            error = 'Title is required.'
+
+        if error is not None:
+            flash(error)
+        else:
+            db.execute(
+                'UPDATE artpiece SET artpiecename = ?, owner_id = ?, value = ?'
+                ' WHERE id = ?',
+                (title, g.user['id'], value, id)
+            )
+            db.commit()
+            return redirect(url_for('myart.art'))
+    else:
+        file = request.files['image_edit']
+        filename, file_extension = os.path.splitext(file.filename)
+        file_extension = file_extension.replace('.', '')
+
+        if not title:
+            error = 'Title is required.'
+
+        if error is not None:
+            flash(error)
+        else:
+            data = str(base64.b64encode(file.read()))
+            data = data.replace("b'", '')
+            data = data.replace("'", '')
+            db.execute(
+                'UPDATE artpiece SET artpiecename = ?, image = ?, owner_id = ?, imagetype = ?, value = ?'
+                ' WHERE id = ?',
+                (title, data, g.user['id'], file_extension, value, id)
+            )
+            db.commit()
+            return redirect(url_for('myart.art'))
+
 
 @artpage.route('/<int:id>/delete', methods=('GET', 'POST'))
 @login_required
@@ -86,8 +133,6 @@ def delete(id):
     db.execute('DELETE FROM post WHERE artpiece_id = ?', (id,))
     db.commit()
     return redirect(url_for('myart.art'))
-
-
 
 @artpage.route('/<int:id>/post', methods=('GET', 'POST'))
 @login_required

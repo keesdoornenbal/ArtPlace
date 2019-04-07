@@ -14,9 +14,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 500 }'>
-    {% for artpiece in artpieces %}
-      {% include 'art/artpiece.html' %}
-    {% endfor %}
+<div class="justify-content-center">
+  <div class="class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 500 }'>
+      {% for artpiece in artpieces %}
+        {% include 'art/artpiece.html' %}
+      {% endfor %}
+  </div>
 </div>
 {% endblock %}

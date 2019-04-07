@@ -7,12 +7,14 @@
       <div class="">
         {% if g.user['id'] == artpiece['owner_id'] %}
           {% include 'art/artpiece_delete.html' %}
+          {% include 'art/artpiece_edit.html' %}
           {% include 'art/artpiece_post.html' %}
         {% endif %}
       </div>
     </div>
     <div class="card-body">
       <h6 class="card-subtitle text-muted">Uploaded on {{ artpiece['uploadtime'].strftime('%d-%m-%Y') }}</h6>
+      <p>Value: {{artpiece['value']}}</p>
       <div class="d-flex justify-content-center">
         <img src="data:image/{{ artpiece['imagetype'] }};base64,{{ artpiece['image'] }}" alt="Art Image" class="artincard">
       </div>

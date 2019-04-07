@@ -21,9 +21,7 @@
           <div class="form-group">
             <label for="value_new">Value</label>
             <input type="number" min="0" step=".01" name="value_new" id="value_new" class="form-control" required value="0.00">
-            <script type="text/javascript">
-              parseFloat($(value_new).val()).toFixed(2)
-            </script>
+            <small id="numberHelp" class="form-text text-muted">Only the first to numbers after the point will be counted.</small>
           </div>
           <div class="form-group">
             <label for="image_new">Image</label>
