@@ -12,7 +12,7 @@ CREATE TABLE user (
 CREATE TABLE wallet (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   owner_id INTEGER NOT NULL,
-  balance INTEGER NOT NULL,
+  balance DECIMAL(11, 2) NOT NULL,
   FOREIGN KEY (owner_id) REFERENCES user (id)
 );
 

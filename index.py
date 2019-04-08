@@ -64,11 +64,16 @@ def register():
             'INSERT INTO user (username, password) VALUES (?, ?)',
             (username, generate_password_hash(password))
         )
-        db.commit()
-        session.clear()
         user = db.execute(
             'SELECT * FROM user WHERE username = ?', (username,)
         ).fetchone()
+        db.execute(
+            'INSERT INTO wallet (owner_id, balance) VALUES (?, ?)',
+            (user['id'], 0.00)
+        )
+        db.commit()
+
+        session.clear()
         session['user_id'] = user['id']
         return redirect(url_for('explore.index'))
     else:

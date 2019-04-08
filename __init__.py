@@ -35,6 +35,9 @@ def create_app(test_config=None):
     from . import myart
     app.register_blueprint(myart.artpage)
 
+    from . import wallet
+    app.register_blueprint(wallet.bp)
+
     from . import index
     app.register_blueprint(index.bp)
     app.add_url_rule('/', endpoint='index')
