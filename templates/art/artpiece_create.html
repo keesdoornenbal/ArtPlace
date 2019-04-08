@@ -1,6 +1,6 @@
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-success" data-toggle="modal" data-target="#artpieceCreateModalCenter">New Artpiece</button>
+<button type="button" class="btn btn-success big-add" data-toggle="modal" data-target="#artpieceCreateModalCenter"><span class="fas fa-plus"></span></button>
 
 <!-- Modal -->
 <div class="modal fade" id="artpieceCreateModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -28,6 +28,12 @@
             <input type="file" class="form-control-file" id="image_new" name="image_new" aria-describedby="fileHelp" accept="image/*" required>
             <small id="fileHelp" class="form-text text-muted">Only upload images.</small>
           </div>
+          {% for message in get_flashed_messages() %}
+            <div class="alert alert-dismissible alert-danger mt-0 mr-2 mb-0 ml-0">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ message }}
+            </div>
+          {% endfor %}
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <input type="submit" class="btn btn-success" value="Save">

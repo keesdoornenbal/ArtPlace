@@ -1,6 +1,6 @@
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-success" data-toggle="modal" data-target="#postCreateModalCenter">New Post</button>
+<button type="button" class="btn btn-success big-add" data-toggle="modal" data-target="#postCreateModalCenter"><span class="fas fa-plus"></span></button>
 
 <!-- Modal -->
 <div class="modal fade" id="postCreateModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -22,6 +22,12 @@
             <label for="body_new">Body</label>
             <textarea name="body_new" class="form-control" id="body_new" rows="5">{{ request.form['body'] }}</textarea>
           </div>
+          {% for message in get_flashed_messages() %}
+            <div class="alert alert-dismissible alert-danger mt-0 mr-2 mb-0 ml-0">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ message }}
+            </div>
+          {% endfor %}
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <input type="submit" class="btn btn-success" value="Save">

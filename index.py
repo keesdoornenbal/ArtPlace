@@ -44,6 +44,7 @@ def login():
 def register():
     username = request.form['register_username']
     password = request.form['register_password']
+    passwordcheck = request.form['register_password_check']
     db = get_db()
     error = None
 
@@ -51,6 +52,8 @@ def register():
         error = 'Username is required.'
     elif not password:
         error = 'Password is required.'
+    elif password != passwordcheck:
+        error = "Passwords don't match."
     elif db.execute(
         'SELECT id FROM user WHERE username = ?', (username,)
     ).fetchone() is not None:

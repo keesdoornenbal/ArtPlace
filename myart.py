@@ -34,10 +34,12 @@ def get_artpiece(id, check_author=True):
 @login_required
 def art():
     db = get_db()
+    id = g.user['id']
     artpieces = db.execute(
         'SELECT a.id, artpiecename, image, uploadtime, owner_id, imagetype, value'
-        ' FROM artpiece a JOIN user u ON a.owner_id = u.id'
-        ' ORDER BY uploadtime DESC'
+        ' FROM artpiece a WHERE a.owner_id = ?'
+        ' ORDER BY uploadtime DESC',
+        (id,)
     ).fetchall()
 
     return render_template('art/my_art.html', artpieces=artpieces)

@@ -5,11 +5,6 @@
   <div class="flex-grow-1">
     <h1>{% block title %}Your art{% endblock %}</h1>
   </div>
-  <div class="">
-    {% if g.user %}
-      {% include 'art/artpiece_create.html' %}
-    {% endif %}
-  </div>
 </div>
 {% endblock %}
 
@@ -20,5 +15,10 @@
         {% include 'art/artpiece.html' %}
       {% endfor %}
   </div>
+</div>
+<div class="">
+  {% if g.user %}
+    {% include 'art/artpiece_create.html' %}
+  {% endif %}
 </div>
 {% endblock %}
