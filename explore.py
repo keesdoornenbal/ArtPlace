@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
@@ -23,17 +25,17 @@ def get_post(id, check_author=True):
 
     return post
 
-
 @bp.route('/')
 @bp.route('/index')
 @login_required
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, body, created, author_id, username, artpiece_id, image, imagetype, artpiecename'
-        ' FROM post p JOIN user u ON p.author_id = u.id LEFT JOIN artpiece a ON p.artpiece_id = a.id'
+        'SELECT p.id, title, body, created, author_id, username, artpiece_id, image, imagetype, artpiecename, contract_id, enddate, price, lender_id'
+        ' FROM post p JOIN user u ON p.author_id = u.id LEFT JOIN artpiece a ON p.artpiece_id = a.id LEFT JOIN contract c ON p.contract_id = c.id'
         ' ORDER BY created DESC'
     ).fetchall()
+
     return render_template('explore/explore.html', posts=posts)
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -89,5 +91,25 @@ def delete(id):
     get_post(id)
     db = get_db()
     db.execute('DELETE FROM post WHERE id = ?', (id,))
+    db.commit()
+    return redirect(url_for('explore.index'))
+
+
+@bp.route('/rent', methods=('GET', 'POST'))
+@login_required
+def rent():
+    db = get_db()
+    contract_id = request.form['contract_id']
+    artpiece_id = request.form['artpiece_id']
+    db.execute(
+        'UPDATE contract SET borrower_id = ?'
+        ' WHERE id = ?',
+        (g.user['id'], contract_id)
+    )
+    db.execute(
+        'UPDATE artpiece SET renter_id = ?'
+        ' WHERE id = ?',
+        (g.user['id'], artpiece_id)
+    )
     db.commit()
     return redirect(url_for('explore.index'))

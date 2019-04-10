@@ -29,7 +29,8 @@
 }
 
 .grid-item {
-  width: 500px;
+  width: 400px;
+  transition: 0.4s;
 }
 
 .big-add {
@@ -51,10 +52,19 @@
   transition: 0.3s;
 }
 
+@media (max-width: 575px) {
+  .grid-item{
+    width: 400px;
+  }
+}
+
 @media (min-width: 576px) {
   .big-add {
     width: 56px;
     height: 56px;
+  }
+  .grid-item{
+    width: 500px;
   }
 }
 

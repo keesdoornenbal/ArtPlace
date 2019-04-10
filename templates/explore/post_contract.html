@@ -1,0 +1,37 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contract{{ post['id'] }}">
+  <span class="fas fa-shopping-cart"></span>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="contract{{ post['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Rent Artpiece {{ post['artpiecename'] }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>Price for renting: {{ "$%.2f"|format(post['price']) }}</h4>
+        <h4>Enddate for renting: {{ post['enddate'].strftime('%d-%m-%Y') }}</h4>
+        <img src="{{ url_for('static', filename='img/payment-processed.png') }}" alt="Payment" class="artincard" style="">
+        <form method="post" action="{{ url_for('explore.rent') }}">
+          {% for message in get_flashed_messages() %}
+            <div class="alert alert-dismissible alert-danger mt-0 mr-2 mb-0 ml-0">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ message }}
+            </div>
+          {% endfor %}
+          <input type="hidden" name="contract_id" value="{{ post['contract_id'] }}">
+          <input type="hidden" name="artpiece_id" value="{{ post['artpiece_id'] }}">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-success" value="Rent">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

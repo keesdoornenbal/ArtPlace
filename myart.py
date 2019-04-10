@@ -1,6 +1,7 @@
 import os
 import random, string
 import base64
+from datetime import datetime
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for, abort
@@ -36,10 +37,11 @@ def art():
     db = get_db()
     id = g.user['id']
     artpieces = db.execute(
-        'SELECT a.id, artpiecename, image, uploadtime, owner_id, imagetype, value'
-        ' FROM artpiece a WHERE a.owner_id = ?'
+        'SELECT a.id, artpiecename, image, uploadtime, owner_id, username, renter_id, imagetype, value'
+        ' FROM artpiece a JOIN user u ON a.owner_id = u.id'
+        ' WHERE a.owner_id = ? OR renter_id = ?'
         ' ORDER BY uploadtime DESC',
-        (id,)
+        (id, id,)
     ).fetchall()
 
     return render_template('art/my_art.html', artpieces=artpieces)
@@ -142,6 +144,10 @@ def post(id):
     artpiece = request.form['artpiece_id']
     title = request.form['title_new']
     body = request.form['body_new']
+    date = request.form['enddate_new']
+    date = datetime.strptime(date, '%d-%m-%Y')
+    price = float(request.form['price_new'])
+    price = round(price,2)
     error = None
 
     if not title:
@@ -153,11 +159,24 @@ def post(id):
     if error is not None:
         flash(error)
     else:
+        userid = g.user['id']
         db = get_db()
         db.execute(
-            'INSERT INTO post (title, body, author_id, artpiece_id)'
+            'INSERT INTO contract (artpiece_about, enddate, price, lender_id)'
             ' VALUES (?, ?, ?, ?)',
-            (title, body, g.user['id'], artpiece)
+            (artpiece, date, price, userid)
+        )
+        db.commit()
+        contract = db.execute(
+            'SELECT c.id, artpiece_about, lender_id'
+            ' FROM contract c'
+            ' WHERE c.artpiece_about = ? AND c.lender_id = ?',
+            (artpiece, userid)
+        ).fetchone()
+        db.execute(
+            'INSERT INTO post (title, body, author_id, artpiece_id, contract_id)'
+            ' VALUES (?, ?, ?, ?, ?)',
+            (title, body, g.user['id'], artpiece, contract['id'])
         )
         db.commit()
         return redirect(url_for('myart.art'))

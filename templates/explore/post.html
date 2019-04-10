@@ -7,6 +7,8 @@
       <div class="">
         {% if g.user['id'] == post['author_id'] %}
           {% include 'explore/post_update.html'%}
+        {% else %}
+          {% include 'explore/post_contract.html'%}
         {% endif %}
       </div>
     </div>

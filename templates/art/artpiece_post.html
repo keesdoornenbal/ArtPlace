@@ -1,7 +1,7 @@
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#post{{ artpiece['id'] }}">
-  <span class="fas fa-comment-alt"></span>
+  <span class="fas fa-hand-holding-usd"></span>
 </button>
 
 <!-- Modal -->
@@ -9,7 +9,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">New post about {{ artpiece['artpiecename'] }}
+        <h5 class="modal-title" id="exampleModalLongTitle">Publish {{ artpiece['artpiecename'] }}
           <span class="comment-alt"></span>
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -23,8 +23,26 @@
             <input name="title_new" id="title_new" class="form-control" value="{{ request.form['title'] }}" required>
           </div>
           <div class="form-group">
-            <label for="body_new">Body</label>
+            <label for="body_new">Description</label>
             <textarea name="body_new" class="form-control" id="body_new" rows="5">{{ request.form['body'] }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="price_new">Rent price</label>
+            <input type="number" min="0" step=".01" name="price_new" id="price_new" class="form-control" value="0.00" required>
+            <small id="numberHelp" class="form-text text-muted">Only the first to numbers after the point will be counted.</small>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="enddate_new">Enddate for renting</label>
+            <div class="datepicker" id="datepicker">
+              <input class="form-control" id="enddate_new" name="enddate_new" placeholder="Click to open datepicker" type="text" required/>
+            </div>
+            <script type="text/javascript">
+              $('#datepicker input').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                startDate: '+0d'
+              });
+            </script>
           </div>
           {% for message in get_flashed_messages() %}
             <div class="alert alert-dismissible alert-danger mt-0 mr-2 mb-0 ml-0">

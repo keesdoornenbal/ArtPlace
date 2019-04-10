@@ -13,8 +13,15 @@
       </div>
     </div>
     <div class="card-body">
+      {% if g.user['id'] == artpiece['owner_id'] %}
+      <h5>Owner: you</h5>
+      {% else %}
+      <h5>Owner: {{ artpiece['username'] }}</h5>
+      {% endif %}
       <h6 class="card-subtitle text-muted">Uploaded on {{ artpiece['uploadtime'].strftime('%d-%m-%Y') }}</h6>
-      <p>Value: {{artpiece['value']}}</p>
+      <div class="pt-2">
+        <p>Value: {{ "$%.2f"|format(artpiece['value']) }}</p>
+      </div>
       <div class="d-flex justify-content-center">
         <img src="data:image/{{ artpiece['imagetype'] }};base64,{{ artpiece['image'] }}" alt="Art Image" class="artincard">
       </div>

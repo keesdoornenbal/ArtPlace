@@ -1,10 +1,10 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ post['title'] }}{{ post['id'] }}">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit{{ post['id'] }}">
   <span class="fas fa-edit"></span>
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="{{ post['title'] }}{{ post['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="edit{{ post['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
