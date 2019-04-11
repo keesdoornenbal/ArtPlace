@@ -162,21 +162,21 @@ def post(id):
         userid = g.user['id']
         db = get_db()
         db.execute(
-            'INSERT INTO contract (artpiece_about, enddate, price, lender_id)'
+            'INSERT INTO contract (artpiece_id, enddate, price, lender_id)'
             ' VALUES (?, ?, ?, ?)',
             (artpiece, date, price, userid)
         )
         db.commit()
         contract = db.execute(
-            'SELECT c.id, artpiece_about, lender_id'
+            'SELECT c.id, artpiece_id, lender_id'
             ' FROM contract c'
-            ' WHERE c.artpiece_about = ? AND c.lender_id = ?',
+            ' WHERE c.artpiece_id = ? AND c.lender_id = ?',
             (artpiece, userid)
         ).fetchone()
         db.execute(
-            'INSERT INTO post (title, body, author_id, artpiece_id, contract_id)'
-            ' VALUES (?, ?, ?, ?, ?)',
-            (title, body, g.user['id'], artpiece, contract['id'])
+            'INSERT INTO post (title, body, author_id, contract_id)'
+            ' VALUES (?, ?, ?, ?)',
+            (title, body, g.user['id'], contract['id'])
         )
         db.commit()
         return redirect(url_for('myart.art'))

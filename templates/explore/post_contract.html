@@ -28,10 +28,17 @@
           <input type="hidden" name="artpiece_id" value="{{ post['artpiece_id'] }}">
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <input type="submit" class="btn btn-success" value="Rent">
+            <input type="submit" class="btn btn-success" value="Rent" id="success">
           </div>
         </form>
+        <button id="succes" type="button" name="button">test</button>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $("#success").click(function () {
+    notifications.push("Success notification","{{ post['artpiecename'] }} is now in your gallery!","success",false);
+  });
+</script>

@@ -31,8 +31,10 @@ def get_post(id, check_author=True):
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, body, created, author_id, username, artpiece_id, image, imagetype, artpiecename, contract_id, enddate, price, lender_id'
-        ' FROM post p JOIN user u ON p.author_id = u.id LEFT JOIN artpiece a ON p.artpiece_id = a.id LEFT JOIN contract c ON p.contract_id = c.id'
+        'SELECT p.id, title, body, created, author_id, contract_id, enddate, price, lender_id, artpiece_id, image, imagetype, artpiecename, value'
+        ' FROM post p JOIN user u ON p.author_id = u.id'
+        ' LEFT JOIN contract c ON p.contract_id = c.id'
+        ' JOIN artpiece a ON c.artpiece_id = a.id'
         ' ORDER BY created DESC'
     ).fetchall()
 

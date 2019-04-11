@@ -19,12 +19,12 @@ CREATE TABLE wallet (
 
 CREATE TABLE contract(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  artpiece_about INTEGER NOT NULL,
+  artpiece_id INTEGER NOT NULL,
   enddate TIMESTAMP NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
   lender_id INTEGER NOT NULL,
   borrower_id INTEGER,
-  FOREIGN KEY (artpiece_about) REFERENCES artpiece (id),
+  FOREIGN KEY (artpiece_id) REFERENCES artpiece (id),
   FOREIGN KEY (lender_id) REFERENCES user (id),
   FOREIGN KEY (borrower_id) REFERENCES user (id)
 );
@@ -35,10 +35,8 @@ CREATE TABLE post (
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   title TEXT NOT NULL,
   body TEXT NOT NULL,
-  artpiece_id INTEGER,
   contract_id INTEGER,
   FOREIGN KEY (author_id) REFERENCES user (id),
-  FOREIGN KEY (artpiece_id) REFERENCES artpiece (id),
   FOREIGN KEY (contract_id) REFERENCES contract (id)
 );
 
