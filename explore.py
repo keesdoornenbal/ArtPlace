@@ -31,14 +31,20 @@ def get_post(id, check_author=True):
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, body, created, author_id, contract_id, enddate, price, lender_id, artpiece_id, image, imagetype, artpiecename, value'
+        'SELECT p.id, title, body, created, author_id, username, contract_id, enddate, price, lender_id, artpiece_id, image, imagetype, artpiecename, value'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' LEFT JOIN contract c ON p.contract_id = c.id'
-        ' JOIN artpiece a ON c.artpiece_id = a.id'
+        ' LEFT JOIN artpiece a ON c.artpiece_id = a.id'
         ' ORDER BY created DESC'
     ).fetchall()
+    wallet = db.execute(
+        'SELECT w.id, owner_id, balance'
+        ' FROM wallet w'
+        ' WHERE owner_id = ?',
+        (g.user['id'],)
+    ).fetchone()
 
-    return render_template('explore/explore.html', posts=posts)
+    return render_template('explore/explore.html', posts=posts, wallet=wallet)
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
@@ -102,16 +108,46 @@ def delete(id):
 def rent():
     db = get_db()
     contract_id = request.form['contract_id']
+    wallet_id = request.form['wallet_id']
+    price = float(request.form['price'])
+    post_id = request.form['post_id']
     artpiece_id = request.form['artpiece_id']
+    owner_id = request.form['owner']
+    # heerlijk gemaakt dit
     db.execute(
         'UPDATE contract SET borrower_id = ?'
         ' WHERE id = ?',
         (g.user['id'], contract_id)
     )
+    wallet = db.execute(
+        'SELECT w.id, balance'
+        ' FROM wallet w'
+        ' WHERE id = ?',
+        (wallet_id,)
+    ).fetchone()
+    new_balance = wallet['balance'] - price
+    db.execute(
+        'UPDATE wallet SET balance = ?'
+        ' WHERE id = ?',
+        (new_balance, wallet_id)
+    )
     db.execute(
         'UPDATE artpiece SET renter_id = ?'
         ' WHERE id = ?',
         (g.user['id'], artpiece_id)
+    )
+    db.execute('DELETE FROM post WHERE id = ?', (post_id,))
+    owner_wallet = db.execute(
+        'SELECT w.id, balance, owner_id'
+        ' FROM wallet w'
+        ' WHERE owner_id = ?',
+        (owner_id,)
+    ).fetchone()
+    owner_balance = owner_wallet['balance'] + price
+    db.execute(
+        'UPDATE wallet SET balance = ?'
+        ' WHERE id = ?',
+        (owner_balance, owner_wallet['id'])
     )
     db.commit()
     return redirect(url_for('explore.index'))

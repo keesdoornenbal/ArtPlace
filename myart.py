@@ -39,7 +39,7 @@ def art():
     artpieces = db.execute(
         'SELECT a.id, artpiecename, image, uploadtime, owner_id, username, renter_id, imagetype, value'
         ' FROM artpiece a JOIN user u ON a.owner_id = u.id'
-        ' WHERE a.owner_id = ? OR renter_id = ?'
+        ' WHERE (a.owner_id = ? AND renter_id IS NULL) OR renter_id = ?'
         ' ORDER BY uploadtime DESC',
         (id, id,)
     ).fetchall()

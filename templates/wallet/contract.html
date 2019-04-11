@@ -1,0 +1,19 @@
+<div class="grid-item p-2">
+  <div class="card border-primary m-2 card-fit-content" style="width: 100%;">
+    <div class="d-flex card-header">
+      <div class="flex-grow-1">
+        <h3 class="">{{ contract['artpiecename'] }}</h3>
+      </div>
+    </div>
+    <div class="card-body">
+      <h6 class="card-subtitle text-muted">Ends on {{ contract['enddate'].strftime('%d-%m-%Y') }}</h6>
+      <div class="pt-2">
+        <h6>Money recieved: {{ "$%.2f"|format(contract['price']) }}</h6>
+        <h6>Value: {{ "$%.2f"|format(contract['value']) }}</h6>
+      </div>
+      <div class="d-flex justify-content-center">
+        <img src="data:image/{{ contract['imagetype'] }};base64,{{ contract['image'] }}" alt="Art Image" class="artincard">
+      </div>
+    </div>
+  </div>
+</div>

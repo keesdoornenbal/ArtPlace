@@ -4,8 +4,8 @@
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="contract{{ post['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade bd-example-modal-lg" id="contract{{ post['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Rent Artpiece {{ post['artpiecename'] }}</h5>
@@ -14,9 +14,51 @@
         </button>
       </div>
       <div class="modal-body">
-        <h4>Price for renting: {{ "$%.2f"|format(post['price']) }}</h4>
-        <h4>Enddate for renting: {{ post['enddate'].strftime('%d-%m-%Y') }}</h4>
-        <img src="{{ url_for('static', filename='img/payment-processed.png') }}" alt="Payment" class="artincard" style="">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 h-100">
+              <div class="p-2">
+                <h5>Owner: {{ post['username'] }}</h5>
+                <h6>Value: {{ "$%.2f"|format(post['value']) }}</h6>
+                <h6>Price: {{ "$%.2f"|format(post['price']) }}</h6>
+                <div class="py-2">
+                  <div class="d-flex justify-content-between">
+                    <h6>Balance of your wallet:</h6>
+                    <h6>{{ "$%.2f"|format(wallet['balance']) }}</h6>
+                  </div>
+                  <div class="d-flex justify-content-between border-info border-bottom">
+                    <h6>Price for renting:</h6>
+                    <h6>{{ "$%.2f"|format(post['price']) }}</h6>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <p>Balance after renting:</p>
+                    <p>{{ "$%.2f"|format(wallet['balance'] - post['price']) }}</p>
+                  </div>
+                </div>
+                {% if wallet['balance'] - post['price'] > 0 %}
+                <div class="alert alert-dismissible alert-success">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  <strong>Yes!</strong> You can rent this artpiece.
+                </div>
+                {% else %}
+                <div class="alert alert-dismissible alert-primary">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  <strong>Oh snap!</strong> Your balance is to low to rent this artpiece.
+                </div>
+                {% endif %}
+                <div class="d-flex justify-content-between py-2">
+                  <h6>Enddate for renting:</h6>
+                  <h6>{{ post['enddate'].strftime('%d-%m-%Y') }}</h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-2">
+                <img src="{{ url_for('static', filename='img/payment-processed.png') }}" alt="Payment" class="artincard mx-auto my-auto" style="">
+              </div>
+            </div>
+          </div>
+        </div>
         <form method="post" action="{{ url_for('explore.rent') }}">
           {% for message in get_flashed_messages() %}
             <div class="alert alert-dismissible alert-danger mt-0 mr-2 mb-0 ml-0">
@@ -24,21 +66,20 @@
               {{ message }}
             </div>
           {% endfor %}
+          <input type="hidden" name="wallet_id" value="{{ wallet['id'] }}">
           <input type="hidden" name="contract_id" value="{{ post['contract_id'] }}">
+          <input type="hidden" name="post_id" value="{{ post['id'] }}">
+          <input type="hidden" name="price" value="{{ post['value'] }}">
           <input type="hidden" name="artpiece_id" value="{{ post['artpiece_id'] }}">
+          <input type="hidden" name="owner" value="{{ post['author_id'] }}">
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <input type="submit" class="btn btn-success" value="Rent" id="success">
+            {% if wallet['balance'] - post['price'] > 0 %}
+              <input type="submit" class="btn btn-success" value="Rent" id="success">
+            {% endif %}
           </div>
         </form>
-        <button id="succes" type="button" name="button">test</button>
       </div>
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  $("#success").click(function () {
-    notifications.push("Success notification","{{ post['artpiecename'] }} is now in your gallery!","success",false);
-  });
-</script>

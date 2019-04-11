@@ -42,13 +42,13 @@ CREATE TABLE post (
 
 CREATE TABLE artpiece (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  owner_id INTEGER NOT NULL,
   renter_id INTEGER,
+  owner_id INTEGER NOT NULL,
   uploadtime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   artpiecename TEXT NOT NULL,
   image BLOB NOT NULL,
   imagetype TEXT NOT NULL,
   value DECIMAL(10, 2) NOT NULL,
-  FOREIGN KEY (owner_id) REFERENCES user (id)
+  FOREIGN KEY (owner_id) REFERENCES user (id),
   FOREIGN KEY (renter_id) REFERENCES user (id)
 );

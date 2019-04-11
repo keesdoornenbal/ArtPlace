@@ -9,7 +9,31 @@
 {% endblock %}
 
 {% block content %}
-  <div class="">
-    Balance = {{ wallet['balance'] }}
-  </div>
+    <div class="row w-100">
+      <div class="col-sm">
+        <div class="px-5">
+          <div class="d-flex text-white">
+            <div class="flex-grow-1">
+              <h4 class="text-body">Balance = {{ "$%.2f"|format(wallet['balance']) }}</h4>
+            </div>
+            <div class="">
+              {% include 'wallet/add_money.html' %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm">
+        <img src="{{ url_for('static', filename='img/unsubscribed.png') }}" alt="Payment" class="img-fluid" style="margin: -15% ">
+      </div>
+    </div>
+    <div class="row w-100 p-5">
+      <div class="justify-content-center">
+        <h2 class="">Lent artpieces</h2>
+        <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 500 }'>
+            {% for contract in contracts %}
+              {% include 'wallet/contract.html' %}
+            {% endfor %}
+        </div>
+      </div>
+    </div>
 {% endblock %}
