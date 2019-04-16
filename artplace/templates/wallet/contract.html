@@ -8,6 +8,7 @@
     <div class="card-body">
       <h6 class="card-subtitle text-muted">Ends on {{ contract['enddate'].strftime('%d-%m-%Y') }}</h6>
       <div class="pt-2">
+        <h5>Borrower: {{ contract['username'] }}</h5>
         <h6>Money recieved: {{ "$%.2f"|format(contract['price']) }}</h6>
         <h6>Value: {{ "$%.2f"|format(contract['value']) }}</h6>
       </div>

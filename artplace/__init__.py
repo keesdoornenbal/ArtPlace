@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -37,6 +38,9 @@ def create_app(test_config=None):
 
     from . import wallet
     app.register_blueprint(wallet.bp)
+
+    from . import blockchain
+    app.register_blueprint(blockchain.bp)
 
     from . import index
     app.register_blueprint(index.bp)

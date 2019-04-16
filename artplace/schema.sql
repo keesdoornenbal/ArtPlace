@@ -29,6 +29,15 @@ CREATE TABLE contract(
   FOREIGN KEY (borrower_id) REFERENCES user (id)
 );
 
+CREATE TABLE transaction (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  amount INTEGER NOT NULL,
+  wallet_from INTEGER NOT NULL,
+  wallet_to INTEGER NOT NULL,
+  FOREIGN KEY (wallet_from) REFERENCES wallet (id)
+  FOREIGN KEY (wallet_to) REFERENCES wallet (id)
+);
+
 CREATE TABLE post (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   author_id INTEGER NOT NULL,

@@ -29,7 +29,7 @@
     <div class="row w-100 p-5">
       <div class="justify-content-center">
         <h2 class="">Lent artpieces</h2>
-        <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 500 }'>
+        <div class="d-flex flex-row">
             {% for contract in contracts %}
               {% include 'wallet/contract.html' %}
             {% endfor %}
