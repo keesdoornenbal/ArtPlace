@@ -17,7 +17,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" action="{{ url_for('myart.post', id=artpiece['id']) }}">
+        <form method="post" action="{{ url_for('myart.post', id=artpiece['id']) }}" autocomplete="off">
           <div class="form-group">
             <label for="title_new">Title</label>
             <input name="title_new" id="title_new" class="form-control" value="{{ request.form['title'] }}" required>
@@ -34,7 +34,7 @@
           <div class="form-group">
             <label class="control-label" for="enddate_new">Enddate for renting</label>
             <div class="datepicker" id="datepicker">
-              <input class="form-control" id="enddate_new" name="enddate_new" placeholder="Click to open datepicker" type="text" required/>
+              <input class="form-control" id="enddate_new" name="enddate_new" placeholder="Click to open datepicker" type="text" required autocomplete="false"/>
             </div>
             <script type="text/javascript">
               $('#datepicker input').datepicker({
